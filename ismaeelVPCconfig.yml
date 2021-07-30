@@ -1,0 +1,206 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: VPC Nested Stack
+
+
+Parameters:
+
+  VpcCIDR:
+    Default: 10.0.0.0/16
+    Description: ip range (CIDR notation) for this VPC
+    Type: String
+
+  PublicSubnet1CIDR:
+    Default: 10.0.1.0/24
+    Description: ip range (CIDR notation) for this VPC
+    Type: String
+
+  PublicSubnet2CIDR:
+    Default: 10.0.3.0/24
+    Description: ip range (CIDR notation) for this VPC
+    Type: String
+
+  PrivateSubnet1CIDR:
+    Default: 10.0.2.0/24
+    Description: ip range (CIDR notation) for this VPC
+    Type: String
+
+
+
+
+
+    
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: Dev VPC Network Configuration
+          Parameters:
+            - VpcCIDR
+            - PublicSubnet1CIDR   
+            - PublicSubnet2CIDR     
+    ParameterLabels:
+      VpcCIDR:
+        default: VPC CIDR Range selection
+
+
+Resources:
+ VPC:
+   Type: AWS::EC2::VPC
+   Properties:
+    CidrBlock: !Ref VpcCIDR             # The intrinsic function Ref returns the value of the specified parameter or resource
+                                        # When you specify a resource's logical name, it returns a value that you can typically use to refer to that resource
+    
+    EnableDnsHostnames: true          # Indicates whether the instances launched in the VPC get DNS hostnames
+    EnableDnsSupport: true            # Indicates whether the DNS resolution is supported for the VPC. 
+    InstanceTenancy: default         # An instance launched into the VPC runs on shared hardware by default
+    Tags: 
+      - Key: Name
+        Value: ismaeelhaider VPC
+
+
+ InternetGateway:
+    Type: AWS::EC2::InternetGateway      # Allocates an internet gateway for use with a VPC. After creating the Internet gateway, you then attach it to a VPC.
+    Properties: 
+      Tags: 
+        - Key: Name
+          Value: Test IGW
+
+
+
+
+ InternetGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment   # Attaches an internet gateway, or a virtual private gateway to a VPC, enabling connectivity between the internet and the VPC.
+    Properties: 
+      InternetGatewayId: !Ref InternetGateway   # The ID of the internet gateway.
+      VpcId: !Ref VPC                     # The ID of the VPC.  
+
+
+
+ PublicSubnet1:
+  Type: AWS::EC2::Subnet
+  Properties: 
+    AvailabilityZone: !Select [ 2, !GetAZs '' ]    # GetAZs function returns all Availability Zones for a region.
+    CidrBlock: !Ref PublicSubnet2CIDR
+    MapPublicIpOnLaunch: true          # Indicates whether instances launched in this subnet receive a public IPv4 address
+    Tags: 
+      - Key: Name
+        Value: Public subnet 1
+    VpcId: !Ref VPC
+
+
+
+ PublicSubnet2:
+  Type: AWS::EC2::Subnet
+  Properties: 
+    AvailabilityZone: !Select [ 0, !GetAZs '' ]
+    CidrBlock: !Ref PublicSubnet1CIDR
+    MapPublicIpOnLaunch: true
+    Tags: 
+      - Key: Name
+        Value: Public subnet 2
+    VpcId: !Ref VPC
+
+
+
+ PublicRouteTable:
+  Type: AWS::EC2::RouteTable
+  Properties: 
+    Tags: 
+      - Key: Name
+        Value: Public route table
+    VpcId: !Ref VPC
+
+ publicRoute:
+  Type: AWS::EC2::Route
+  Properties: 
+    DestinationCidrBlock: 0.0.0.0/0
+    GatewayId: !Ref InternetGateway
+    RouteTableId: !Ref PublicRouteTable
+
+ publicsubnet1RouteTableAssociation:
+  Type: AWS::EC2::SubnetRouteTableAssociation
+  Properties: 
+    RouteTableId: !Ref PublicRouteTable
+    SubnetId: !Ref PublicSubnet1
+
+ publicsubnet1RouteTableAssociation2:
+  Type: AWS::EC2::SubnetRouteTableAssociation
+  Properties: 
+    RouteTableId: !Ref PublicRouteTable
+    SubnetId: !Ref PublicSubnet2
+
+
+            
+         
+ privateSubnet1:
+  Type: AWS::EC2::Subnet
+  Properties: 
+    AvailabilityZone: !Select [ 1, !GetAZs '' ]
+    CidrBlock: !Ref PrivateSubnet1CIDR
+    MapPublicIpOnLaunch: false
+    Tags: 
+      - Key: Name
+        Value: Private subnet 1
+    VpcId: !Ref VPC
+
+
+
+ # NatGateway1EIP:
+ #  Type: AWS::EC2::EIP
+ #  Properties:
+ #    Domain: VPC               # Indicates whether the Elastic IP address is for use with instances in a VPC or instance in EC2-Classic.
+ #    Tags:
+ #      - Key: Name
+ #        Value: EIP1
+
+
+
+ NatGateway1:                      # Specifies a network address translation (NAT) gateway in the specified public subnet. 
+                                    #Use a NAT gateway to allow instances in a private subnet to connect to the Internet or to other AWS services,
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId:  eipalloc-0c85517c4e2b6b608  # The ID that AWS assigns to represent the allocation of the address for use with Amazon VPC.
+                                                          #  This is returned only for VPC elastic IP addresses. For example, eipalloc-5723d13e 
+      SubnetId: !Ref PublicSubnet2
+      Tags:
+        - Key: Name
+          Value: Nat Gateway Public Subnet 2
+
+
+ PrivateRouteTable1:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      Tags:
+        - Key: Name
+          Value: Private Route Table 1
+      VpcId: !Ref VPC
+
+ PrivateRoute1:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NatGateway1
+      RouteTableId: !Ref PrivateRouteTable1
+
+ PrivateSubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable1
+      SubnetId: !Ref privateSubnet1
+
+
+
+Outputs:
+  PublicSubnet1:
+    Description: Public Subnet Id
+    Value: !Ref PublicSubnet1   
+  PublicSubnet2:
+    Description: Public Subnet-02 Id
+    Value: !Ref PublicSubnet2    
+  PrivateSubnet1:
+    Description: Private Subnet Id
+    Value: !Ref privateSubnet1     
+  VpcId:
+    Description: Vpc Id
+    Value: !Ref VPC  

@@ -1,0 +1,52 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Parameters:
+  VPCId: 
+    Description: VPC configuration
+    Type: String
+
+
+Resources:
+  WebSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: web server Security Group
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0      
+      VpcId: !Ref VPCId
+      Tags:
+        - Key: Name
+          Value: webserver Security Group          
+      VpcId: !Ref VPCId
+
+
+  DbSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: database server Security Group
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+          SourceSecurityGroupId: !Ref WebSecurityGroup
+      Tags:
+        - Key: Name
+          Value: DataBase Security Group          
+      VpcId: !Ref VPCId
+
+
+
+Outputs:
+  WebSG:
+    Description: Web Security Group
+    Value: !Ref WebSecurityGroup    
+  DBSG:
+    Description: DB Security Group
+    Value: !Ref DbSecurityGroup 

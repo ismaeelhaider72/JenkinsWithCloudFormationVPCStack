@@ -1,0 +1,129 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+
+Parameters:
+  MyKeyName:
+    Type: AWS::EC2::KeyPair::KeyName
+ 
+
+  MyBucketName:
+    Default: ismaeels3bucketfornestedstack
+    Type: String    
+
+
+
+  VpcCIDR:
+    Default: 10.0.0.0/16
+    Description: ip range (CIDR notation) for this VPC
+    Type: String
+
+  PublicSubnet1CIDR:
+    Default: 10.0.1.0/24
+    Description: ip range (CIDR notation) for this VPC
+    Type: String
+
+  PublicSubnet2CIDR:
+    Default: 10.0.3.0/24
+    Description: ip range (CIDR notation) for this VPC
+    Type: String
+
+  PrivateSubnet1CIDR:
+    Default: 10.0.2.0/24
+    Description: ip range (CIDR notation) for this VPC
+    Type: String
+
+  ImageId:
+    Type: String
+    Default: ami-077e31c4939f6a2f3
+    
+
+  InstanceType:
+    Type: String
+    Default: t2.micro
+
+
+
+
+
+
+Resources:
+  MyVPCStack:           
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub https://${MyBucketName}.s3.us-east-2.amazonaws.com/ismaeelVPCconfig.yml
+      Parameters:  
+        VpcCIDR: !Ref VpcCIDR
+        PublicSubnet1CIDR: !Ref PublicSubnet1CIDR
+        PublicSubnet2CIDR: !Ref PublicSubnet2CIDR
+        PrivateSubnet1CIDR: !Ref PrivateSubnet1CIDR
+ 
+  
+
+  SecurityGroupStack:  
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub https://${MyBucketName}.s3.us-east-2.amazonaws.com/securitygroup.yml
+      Parameters:
+          VPCId: !GetAtt MyVPCStack.Outputs.VpcId       
+
+
+
+  DatabaseBstack:  
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub https://${MyBucketName}.s3.us-east-2.amazonaws.com/DBEC2Instance.yml
+      Parameters:
+        MyKeyName: !Ref MyKeyName
+        ImageId: !Ref ImageId
+        InstanceType: !Ref InstanceType
+        DatabaseSG: !GetAtt SecurityGroupStack.Outputs.DBSG
+        SubnetId: !GetAtt MyVPCStack.Outputs.PrivateSubnet1
+
+        
+
+
+
+         
+  # webserver: 
+  #   Type: AWS::CloudFormation::Stack
+  #   Properties:
+  #     TemplateURL: !Sub https://${MyBucketName}.s3.us-east-2.amazonaws.com/2peEc2Webserverinstance.yml
+  #     Parameters:
+  #       MyKeyName: !Ref MyKeyName
+  #       WebSecGp: !GetAtt SecurityGroupStack.Outputs.WebSG
+  #       DatabasePrivateIp: !GetAtt DatabaseBstack.Outputs.dbprivateip
+  #       SubnetId: !GetAtt MyVPCStack.Outputs.PublicSubnet1
+
+
+
+
+  ApplicatonLoadbalancerStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub https://${MyBucketName}.s3.us-east-2.amazonaws.com/loadbalancer.yml
+      Parameters:
+        VpcId: !GetAtt MyVPCStack.Outputs.VpcId
+        PublicSubnet1: !GetAtt MyVPCStack.Outputs.PublicSubnet1
+        PublicSubnet2: !GetAtt MyVPCStack.Outputs.PublicSubnet2        
+        ALBSecurityGroup: !GetAtt SecurityGroupStack.Outputs.WebSG
+
+
+
+  Autoscalingstack:    
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub https://${MyBucketName}.s3.us-east-2.amazonaws.com/autoscaling.yml
+      Parameters:
+        MyKeyName: !Ref MyKeyName
+        ImageId: !Ref ImageId
+        InstanceType: !Ref InstanceType        
+        ALBSG: !GetAtt SecurityGroupStack.Outputs.WebSG
+        PublicSubnet1: !GetAtt MyVPCStack.Outputs.PublicSubnet1
+        PublicSubnet2: !GetAtt MyVPCStack.Outputs.PublicSubnet2
+        DatabasePrivateIp: !GetAtt DatabaseBstack.Outputs.dbprivateip
+        ismaeelTargetGroup: !GetAtt ApplicatonLoadbalancerStack.Outputs.targetgroup
+
+
+
+
+

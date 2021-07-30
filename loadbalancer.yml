@@ -1,0 +1,66 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Parameters: 
+  VpcId:
+    Type: String
+
+  PublicSubnet1:
+    Type: String
+
+  PublicSubnet2:
+    Type: String  
+
+  ALBSecurityGroup:
+    Type: String
+
+Resources:
+
+ ismaeelELB:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      IpAddressType: ipv4
+      Scheme: internet-facing   # The nodes of an Internet-facing load balancer have public IP addresses. 
+                                # Internet-facing load balancers can route requests from clients over the internet.
+      Subnets: 
+        - !Ref PublicSubnet1
+        - !Ref PublicSubnet2
+
+      SecurityGroups: 
+        - !Ref ALBSecurityGroup
+      Type: application
+
+ ismaeellistner:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+        - Type: forward     # You can use forward actions to route requests to one or more target groups
+          TargetGroupArn: !Ref ismaeelTargetGroup
+      LoadBalancerArn: !Ref ismaeelELB
+      Port: 80
+      Protocol: HTTP        #Listeners support the following protocols and ports: Protocols: HTTP, HTTPS  and prot  1-65535
+
+
+
+
+
+
+ ismaeelTargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      HealthCheckEnabled: true
+      HealthCheckIntervalSeconds: 80   # The approximate amount of time, in seconds, between health checks of an individual target. 
+      HealthCheckPath: /  # The destination for health checks on the targets.
+      HealthCheckPort: 80  # The port the load balancer uses when performing health checks on targets.
+      HealthCheckProtocol: HTTP  #The protocol the load balancer uses when performing health checks on targets. For Application Load Balancers, the default is HTTP.
+      HealthCheckTimeoutSeconds: 50  
+      Port: 80
+      Protocol: HTTP
+      TargetType: instance
+      UnhealthyThresholdCount: 2   # The number of consecutive health check failures required before considering a target unhealthy.
+      VpcId:  !Ref VpcId
+
+
+Outputs:
+  targetgroup:
+    Description: target group arn
+    Value: !Ref ismaeelTargetGroup   

@@ -1,0 +1,65 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: EC2 Nested Stack
+
+Parameters:
+  
+  MyKeyName:
+    Type: String
+
+  DatabaseSG:
+    Type: String
+  ImageId:
+    Type: String
+
+  InstanceType:
+    Type: String
+
+  SubnetId:
+    Type: String
+  dbname: 
+    Type: String
+    Default: wordpress
+  dbuserpassword:
+    Type: String
+    Default: qniwHfNH;1Tl12
+  dbusername:
+    Type: String
+    Default: remotewpuser2
+
+
+
+Resources: 
+  mydbInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      KeyName: !Ref MyKeyName
+      DisableApiTermination: false
+      ImageId: !Ref ImageId
+      InstanceType: !Ref InstanceType
+      Monitoring: false
+      SubnetId: !Ref SubnetId
+      SecurityGroupIds: 
+       - !Ref DatabaseSG
+       
+      UserData: 
+        Fn::Base64:
+          !Sub |
+          #!/bin/bash 
+          sudo su
+          sudo wget https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
+          sudo yum localinstall mysql57-community-release-el7-11.noarch.rpm -y
+          yum install -y mysql-community-server
+          systemctl enable mysqld
+          systemctl start mysqld
+          mysql -u root "-p$(grep -oP '(?<=root@localhost\: )\S+' /var/log/mysqld.log)" -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${dbuserpassword}'" --connect-expired-password
+          mysql -u root "-p${dbuserpassword}" -e "CREATE DATABASE ${dbname}"
+          mysql -u root "-p${dbuserpassword}" -e "CREATE USER '${dbusername}'@'%' IDENTIFIED BY '${dbuserpassword}'"
+          mysql -u root "-p${dbuserpassword}" -e "GRANT ALL PRIVILEGES ON *.* TO '${dbusername}'@'%'"
+          mysql -u root "-p${dbuserpassword}" -e "FLUSH PRIVILEGES"
+
+
+Outputs:
+  dbprivateip:
+    Description: Db instance ip
+    Value:  !GetAtt mydbInstance.PrivateIp
+
