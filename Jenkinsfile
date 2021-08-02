@@ -1,4 +1,4 @@
-def stderrfile = 'stderr.out'
+
 pipeline {
     agent any
 
