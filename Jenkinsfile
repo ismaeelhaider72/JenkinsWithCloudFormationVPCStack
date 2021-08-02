@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                def output = sh returnStdout: true, script: 'ls -l'
+                output = sh returnStdout: true, script: 'ls -l'
                 echo "Output is ${output}"
                 echo "DISABLE_AUTH is ${DISABLE_AUTH}"
                 sh 'printenv'
