@@ -11,7 +11,7 @@ pipeline {
               script {
                 def output = sh(returnStdout: true, script: 'pwd')
 
-                sh 'echo "output = ${output}"'
+                sh 'echo output = ${output}'
     //               sh 'echo "scriptOutput: ${scriptOutput}"'
 //                   sh 'echo "hy there is ismaeel haider" '
               } 
