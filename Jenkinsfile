@@ -10,17 +10,16 @@ pipeline {
     }
 
     stages {
-        stage('stage1'){
-        def commit = sh (returnStdout: true, script: '''echo hi
-        echo bye | grep -o "e"
-        date
-        echo lol''').split()
-
-
-        echo "${commit[-1]} "
-
+        stage('Show Files') {
+            environment {
+              MY_FILES = sh(script: 'ls -l', returnStdout: true)
+            }
+            steps {
+              sh '''
+                echo "$MY_FILES"
+              '''
+            }
         }
-            
             
             
             
