@@ -1,3 +1,4 @@
+def GIT_COMMIT_EMAIL
 pipeline {
     agent any
     stages {
