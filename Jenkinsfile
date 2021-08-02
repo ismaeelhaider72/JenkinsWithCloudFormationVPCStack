@@ -10,15 +10,16 @@ pipeline {
     }
 
     stages {
-        stage('Build') {
+        stage('stage1'){
+        def commit = sh (returnStdout: true, script: '''echo hi
+        echo bye | grep -o "e"
+        date
+        echo lol''').split()
 
-            
-            try {
-                def dir1 = sh(script:"ls -la  2>${stderrfile}", returnStdout:true).trim()
-            } catch (Exception ex) {
-                def errmsg = readFile(stderrfile)
-                println("Unable to read dir1: ${ex} - ${errmsg}")
-            }
+
+        echo "${commit[-1]} "
+
+        }
             
             
             
