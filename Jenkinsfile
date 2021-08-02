@@ -1,4 +1,4 @@
-// def GIT_COMMIT_EMAIL
+def GIT_COMMIT_EMAIL
 def ff
 pipeline {
     agent any
