@@ -11,10 +11,8 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                output = sh returnStdout: true, script: 'ls -l'
-                echo "Output is ${output}"
-                echo "DISABLE_AUTH is ${DISABLE_AUTH}"
-                sh 'printenv'
+                sh "ls -l > commandResult"
+                result = readFile('commandResult').trim()
             }
         }
     }
