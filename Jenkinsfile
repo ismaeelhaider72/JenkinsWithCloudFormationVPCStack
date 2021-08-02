@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Submit Stack') {
             steps {
-            def commit = sh (returnStdout: true, script: '''echo hi
+            commit = sh (returnStdout: true, script: '''echo hi
             echo bye | grep -o "e"
             date
             echo lol''').split()
