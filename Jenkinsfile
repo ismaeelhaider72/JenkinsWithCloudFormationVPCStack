@@ -1,4 +1,4 @@
-String = res
+String res
 pipeline {
     agent any
     stages {
