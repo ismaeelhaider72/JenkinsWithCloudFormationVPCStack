@@ -8,7 +8,7 @@ pipeline {
                  def output = sh returnStdout: true, script: 'ls -l'
                   // some block
 //                 }
-                echo "${output}"
+                 echo "${output}"
 //              def output = sh returnStdout: true, script: 'ls -l'
                  
    
