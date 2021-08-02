@@ -5,7 +5,7 @@ pipeline {
             
         stage('Show Files') {
             environment {
-              MY_FILES = sh(script: 'cd mydir && ls -l', returnStdout: true)
+              MY_FILES = sh(script: 'cd /home/ubuntu && ls -l', returnStdout: true)
             }
             steps {
               sh '''
