@@ -1,4 +1,4 @@
-String res
+String BUILD_FULL
 pipeline {
     agent any
     stages {
