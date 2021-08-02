@@ -11,6 +11,7 @@ pipeline {
 
               
             }
+        }
             
         stage('Show Files') {
             environment {
@@ -23,5 +24,4 @@ pipeline {
             }
         }            
              }
-            }
             }
