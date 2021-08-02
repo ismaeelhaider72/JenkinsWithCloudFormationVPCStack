@@ -1,13 +1,6 @@
 def stderrfile = 'stderr.out'
 pipeline {
-    agent {
-        label '!windows'
-    }
-
-    environment {
-        DISABLE_AUTH = 'true'
-        DB_ENGINE    = 'sqlite'
-    }
+    agent any
 
     stages {
         stage('Show Files') {
