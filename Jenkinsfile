@@ -1,4 +1,4 @@
-String BUILD_FULL
+def BUILD_FULL
 pipeline {
     agent any
     stages {
