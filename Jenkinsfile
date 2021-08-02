@@ -8,7 +8,7 @@ pipeline {
                   // some block
                 }                
                 
-              echo "$res
+              echo "$res"
               
             }
         }
