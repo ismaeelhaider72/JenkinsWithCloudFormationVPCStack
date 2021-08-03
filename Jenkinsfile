@@ -45,12 +45,18 @@ pipeline {
                     echo "be is "
                     echo be
                     echo be[0]
-                    var ="UPDATE_ROLLBACK_COMPLETE"
+                    v
                                 
-                    if(be == "UPDATE_ROLLBACK_COMPLETE" ){
+                    if (be == "UPDATE_ROLLBACK_COMPLETE" ) {
                         sh "echo stack failed!"
+                        echo "here b si againa  is "
                         error "stack failed due to update is failed"
-                    }  
+                    }
+                    if (status == "UPDATE_ROLLBACK_COMPLETE" ) {
+                        sh "echo stack failed!"
+                        echo "status be is  is "
+                        error "stack failed due to update is failed"
+                    }                                  
                     sh "echo Finished create/update successfully!"
                 }
                     }
