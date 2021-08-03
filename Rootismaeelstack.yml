@@ -97,7 +97,7 @@ Resources:
 
 
 
-  ApplicatonLoadbalancerStack:
+  ApplicatonLoadbalancerStack2:
     Type: AWS::CloudFormation::Stack
     Properties:
       TemplateURL: !Sub https://ismaeeeljenkinsbucket.s3.amazonaws.com/loadbalancer.yml
@@ -121,7 +121,7 @@ Resources:
         PublicSubnet1: !GetAtt MyVPCStack.Outputs.PublicSubnet1
         PublicSubnet2: !GetAtt MyVPCStack.Outputs.PublicSubnet2
         DatabasePrivateIp: !GetAtt DatabaseBstack.Outputs.dbprivateip
-        ismaeelTargetGroup: !GetAtt ApplicatonLoadbalancerStack.Outputs.targetgroup
+        ismaeelTargetGroup: !GetAtt ApplicatonLoadbalancerStack2.Outputs.targetgroup
 
 
 
