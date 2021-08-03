@@ -50,7 +50,7 @@ Resources:
   MyVPCStack:           
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: file://ismaeelVPCconfig.yml
+      TemplateURL: https://github.com/ismaeelhaider72/JenkinsWithCloudFormationVPCStack/blob/master/ismaeelVPCconfig.yml
       Parameters:  
         VpcCIDR: !Ref VpcCIDR
         PublicSubnet1CIDR: !Ref PublicSubnet1CIDR
