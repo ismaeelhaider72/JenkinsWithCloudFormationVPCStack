@@ -38,23 +38,7 @@ pipeline {
                         --query Stacks[0].StackStatus --output text ", returnStdout: true)
 //                                     apply = true
                     echo "hy this is update secton status"
-                    echo status 
-                    typeofvar () {
-
-                        local type_signature=$(declare -p "$1" 2>/dev/null)
-
-                        if [[ "$type_signature" =~ "declare --" ]]; then
-                            printf "string"
-                        elif [[ "$type_signature" =~ "declare -a" ]]; then
-                            printf "array"
-                        elif [[ "$type_signature" =~ "declare -A" ]]; then
-                            printf "map"
-                        else
-                            printf "none"
-                        fi
-
-                    }
-                    typeofvar status            
+                    echo status           
                                 
                     if(status == 'UPDATE_ROLLBACK_COMPLETE'){
                         sh "echo stack failed!"
