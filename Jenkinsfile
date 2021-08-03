@@ -29,7 +29,7 @@ pipeline {
                     if (apply) {
                             try {
                                     sh "echo Stack exists, attempting updating the stack by ismaeel haider..."
-                                    sh "aws cloudformation update-stack --stack-name ismaeelawsclitest2 --template-body file://Rootismaeelstack.yml --parameters ParameterKey=ImageId,ParameterValue=ami-0c2b8ca1dad447f8a ParameterKey=MyKeyName,ParameterValue=ismaeelhaiderUbunterPCKey ParameterKey=InstanceType,ParameterValue=t2.micro ParameterKey=MyBucketName,ParameterValue=ismaeels3bucketfornestedstack   ParameterKey=PrivateSubnet1CIDR,ParameterValue=10.0.2.0/24  ParameterKey=PublicSubnet1CIDR,ParameterValue=10.0.1.0/24 ParameterKey=PublicSubnet2CIDR,ParameterValue=10.0.3.0/24 ParameterKey=VpcCIDR,ParameterValue=10.0.0.0/16"
+                                    sh "aws cloudformation update-stack --stack-name ismaeelawsclitest2 --template-body file://Rootismaeelstack.yml --parameters ParameterKey=ImageId,ParameterValue=ami-0c2b8ca1dad447f8b ParameterKey=MyKeyName,ParameterValue=ismaeelhaiderUbunterPCKey ParameterKey=InstanceType,ParameterValue=t2.micro ParameterKey=MyBucketName,ParameterValue=ismaeels3bucketfornestedstack   ParameterKey=PrivateSubnet1CIDR,ParameterValue=10.0.2.0/24  ParameterKey=PublicSubnet1CIDR,ParameterValue=10.0.1.0/24 ParameterKey=PublicSubnet2CIDR,ParameterValue=10.0.3.0/24 ParameterKey=VpcCIDR,ParameterValue=10.0.0.0/16"
                                     sh "aws cloudformation wait stack-update-complete --stack-name ismaeelawsclitest2 "
                                
                             } catch (error) {
@@ -38,23 +38,9 @@ pipeline {
                     }
                     status2 = sh(script: "aws cloudformation describe-stacks --stack-name ismaeelawsclitest2\
                         --query Stacks[0].StackStatus --output text ", returnStdout: true).trim()
-//                                     apply = true
-                    echo "hy this is update secton status"
-                    echo status2           
-//                     String be=status2                 
-//                     echo "be is "
-//                     echo be
-//                     echo be[0]
 
-                                
-//                     if (be == "UPDATE_ROLLBACK_COMPLETE" ) {
-//                         sh "echo stack failed!"
-//                         echo "here b si againa  is "
-//                         error "stack failed due to update is failed"
-//                     }
                     if (status2 == "UPDATE_ROLLBACK_COMPLETE" ) {
                         sh "echo stack failed!"
-                        echo "status be is  is "
                         error "stack failed due to update is failed"
                     }                                  
                     sh "echo Finished create/update successfully!"
