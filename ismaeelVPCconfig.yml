@@ -146,13 +146,13 @@ Resources:
 
 
 
- # NatGateway1EIP:
- #  Type: AWS::EC2::EIP
- #  Properties:
- #    Domain: VPC               # Indicates whether the Elastic IP address is for use with instances in a VPC or instance in EC2-Classic.
- #    Tags:
- #      - Key: Name
- #        Value: EIP1
+ NatGateway1EIP:
+  Type: AWS::EC2::EIP
+  Properties:
+    Domain: VPC               # Indicates whether the Elastic IP address is for use with instances in a VPC or instance in EC2-Classic.
+    Tags:
+      - Key: Name
+        Value: EIP1
 
 
 
@@ -160,8 +160,8 @@ Resources:
                                     #Use a NAT gateway to allow instances in a private subnet to connect to the Internet or to other AWS services,
     Type: AWS::EC2::NatGateway
     Properties:
-      AllocationId:  eipalloc-0c85517c4e2b6b608  # The ID that AWS assigns to represent the allocation of the address for use with Amazon VPC.
-                                                          #  This is returned only for VPC elastic IP addresses. For example, eipalloc-5723d13e 
+      AllocationId: !GetAtt NatGateway1EIP.AllocationId    # The ID that AWS assigns to represent the allocation of the address for use with Amazon VPC.
+                                                          #  This is returned only for VPC elastic IP addresses. For example, eipalloc-5723d13e ,eipalloc-0c85517c4e2b6b608
       SubnetId: !Ref PublicSubnet2
       Tags:
         - Key: Name
