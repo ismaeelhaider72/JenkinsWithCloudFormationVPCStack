@@ -12,6 +12,8 @@ pipeline {
                             status = sh(script: "aws cloudformation describe-stacks --stack-name ismaeelawsclitest2\
                                 --query Stacks[0].StackStatus --output text ", returnStdout: true)
                             apply = true
+                            echo "hy this is status code"
+                            echo status
                     } catch (err) {
                             apply = false
                             sh 'echo Creating ismaeelawsclitest2'
