@@ -46,13 +46,11 @@ pipeline {
                     echo be
                     echo be[0]
                     var ="UPDATE_ROLLBACK_COMPLETE"
-                    sh if [ "$be" == "UPDATE_ROLLBACK_COMPLETE" ]; then
-                                 echo "ismaeel failed"
                                 
-//                     if[be == "UPDATE_ROLLBACK_COMPLETE" ]{
-//                         sh "echo stack failed!"
-//                         error "stack failed due to update is failed"
-//                     }  
+                    if(be == "UPDATE_ROLLBACK_COMPLETE" ){
+                        sh "echo stack failed!"
+                        error "stack failed due to update is failed"
+                    }  
                     sh "echo Finished create/update successfully!"
                 }
                     }
