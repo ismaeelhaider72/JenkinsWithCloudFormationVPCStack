@@ -40,13 +40,14 @@ pipeline {
                         --query Stacks[0].StackStatus --output text ", returnStdout: true)
 //                                     apply = true
                     echo "hy this is update secton status"
-                    echo status2 
+                    echo status2
+                    echo status[0]             
                     be=status2                 
                     echo "be is "
                     echo be
                     var ="UPDATE_ROLLBACK_COMPLETE"             
                                 
-                    if(be = var){
+                    if(be == "UPDATE_ROLLBACK_COMPLETE" ){
                         sh "echo stack failed!"
                         error "stack failed due to update is failed"
                     }  
