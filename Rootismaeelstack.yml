@@ -55,7 +55,7 @@ Resources:
         VpcCIDR: !Ref VpcCIDR
         PublicSubnet1CIDR: !Ref PublicSubnet1CIDR
         PublicSubnet2CIDR: !Ref PublicSubnet2CIDR
-        PrivateSubnet1CIDR: !Ref PrivateSubnet1CIDR
+        PrivateSubnet1CIDR: !Ref PrivateSubnet1CIDR2
  
   
 
