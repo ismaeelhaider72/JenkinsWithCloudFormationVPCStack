@@ -50,7 +50,7 @@ Resources:
   MyVPCStack:           
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: !Sub https://${MyBucketName}.s3.us-east-1.amazonaws.com/ismaeelVPCconfig.yml
+      TemplateURL: !Sub https://${MyBucketName}.s3.us-east-2.amazonaws.com/ismaeelVPCconfig.yml
       Parameters:  
         VpcCIDR: !Ref VpcCIDR
         PublicSubnet1CIDR: !Ref PublicSubnet1CIDR
@@ -62,7 +62,7 @@ Resources:
   SecurityGroupStack:  
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: !Sub https://${MyBucketName}.s3.us-east-1.amazonaws.com/securitygroup.yml
+      TemplateURL: !Sub https://${MyBucketName}.s3.us-east-2.amazonaws.com/securitygroup.yml
       Parameters:
           VPCId: !GetAtt MyVPCStack.Outputs.VpcId       
 
@@ -71,7 +71,7 @@ Resources:
   DatabaseBstack:  
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: !Sub https://${MyBucketName}.s3.us-east-1.amazonaws.com/DBEC2Instance.yml
+      TemplateURL: !Sub https://${MyBucketName}.s3.us-east-2.amazonaws.com/DBEC2Instance.yml
       Parameters:
         MyKeyName: !Ref MyKeyName
         ImageId: !Ref ImageId
@@ -100,7 +100,7 @@ Resources:
   ApplicatonLoadbalancerStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: !Sub https://${MyBucketName}.s3.us-east-1.amazonaws.com/loadbalancer.yml
+      TemplateURL: !Sub https://${MyBucketName}.s3.us-east-2.amazonaws.com/loadbalancer.yml
       Parameters:
         VpcId: !GetAtt MyVPCStack.Outputs.VpcId
         PublicSubnet1: !GetAtt MyVPCStack.Outputs.PublicSubnet1
@@ -112,7 +112,7 @@ Resources:
   Autoscalingstack:    
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: !Sub https://${MyBucketName}.s3.us-east-1.amazonaws.com/autoscaling.yml
+      TemplateURL: !Sub https://${MyBucketName}.s3.us-east-2.amazonaws.com/autoscaling.yml
       Parameters:
         MyKeyName: !Ref MyKeyName
         ImageId: !Ref ImageId
