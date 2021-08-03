@@ -45,7 +45,7 @@ pipeline {
                     echo "be is "
                     echo be
                     echo be[0]
-                    v
+
                                 
                     if (be == "UPDATE_ROLLBACK_COMPLETE" ) {
                         sh "echo stack failed!"
