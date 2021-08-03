@@ -47,7 +47,7 @@ pipeline {
                     echo be[0]
                     var ="UPDATE_ROLLBACK_COMPLETE"             
                                 
-                    if(be == "UPDATE_ROLLBACK_COMPLETE" ){
+                    if[be == "UPDATE_ROLLBACK_COMPLETE" ]{
                         sh "echo stack failed!"
                         error "stack failed due to update is failed"
                     }  
