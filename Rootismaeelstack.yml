@@ -50,7 +50,7 @@ Resources:
   MyVPCStack:           
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: !Sub https://${MyBucketName}.s3.us-east-2.amazonaws.com/ismaeelVPCconfig.yml
+      TemplateURL: !Sub https://ismaeeeljenkinsbucket.s3.amazonaws.com/ismaeelVPCconfig.yml
       Parameters:  
         VpcCIDR: !Ref VpcCIDR
         PublicSubnet1CIDR: !Ref PublicSubnet1CIDR
