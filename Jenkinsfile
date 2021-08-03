@@ -8,7 +8,8 @@ pipeline {
                 script {
                     withCredentials([string(credentialsId: 'AccessKeyID', variable: 'AWS_ACCESS_KEY_ID'), string(credentialsId: 'SecretAccessKey', variable: 'AWS_SECRET_ACCESS_KEY')]) {
                     def apply = true
-                    def status = null
+                    def status = null 
+                    def String status2 = null     
                     try {
                             status = sh(script: "aws cloudformation describe-stacks --stack-name ismaeelawsclitest2\
                                 --query Stacks[0].StackStatus --output text ", returnStdout: true)
@@ -35,7 +36,7 @@ pipeline {
                                     sh "echo Finished create/update - no updates to be performed"
                             }
                     }
-                    def status2 = sh(script: "aws cloudformation describe-stacks --stack-name ismaeelawsclitest2\
+                    status2 = sh(script: "aws cloudformation describe-stacks --stack-name ismaeelawsclitest2\
                         --query Stacks[0].StackStatus --output text ", returnStdout: true)
 //                                     apply = true
                     echo "hy this is update secton status"
@@ -44,7 +45,7 @@ pipeline {
                     echo "be is "
                     echo be                                     
                                 
-                    if(${status2} == "UPDATE_ROLLBACK_COMPLETE"){
+                    if(status2 = "UPDATE_ROLLBACK_COMPLETE"){
                         sh "echo stack failed!"
                         error "stack failed due to update is failed"
                     }  
