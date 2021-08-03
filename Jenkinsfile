@@ -34,7 +34,7 @@ pipeline {
                                     sh "echo Finished create/update - no updates to be performed"
                             }
                     }
-                    status = sh(script: "aws cloudformation describe-stacks --stack-name ismaeelawsclitest2\
+                    String status = sh(script: "aws cloudformation describe-stacks --stack-name ismaeelawsclitest2\
                         --query Stacks[0].StackStatus --output text ", returnStdout: true)
 //                                     apply = true
                     echo "hy this is update secton status"
