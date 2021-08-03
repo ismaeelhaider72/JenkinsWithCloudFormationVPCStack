@@ -35,11 +35,11 @@ pipeline {
                                     sh "echo Finished create/update - no updates to be performed"
                             }
                     }
-                    def status = sh(script: "aws cloudformation describe-stacks --stack-name ismaeelawsclitest2\
+                    def status2 = sh(script: "aws cloudformation describe-stacks --stack-name ismaeelawsclitest2\
                         --query Stacks[0].StackStatus --output text ", returnStdout: true)
 //                                     apply = true
                     echo "hy this is update secton status"
-                    echo status > be 
+                    echo status2 > be 
                     echo "be is "
                     echo be                                     
                                 
