@@ -9,7 +9,7 @@ pipeline {
                     withCredentials([string(credentialsId: 'AccessKeyID', variable: 'AWS_ACCESS_KEY_ID'), string(credentialsId: 'SecretAccessKey', variable: 'AWS_SECRET_ACCESS_KEY')]) {
                     def apply = true
                     def status = null 
-                    def String status2 = null     
+                      
                     try {
                             status = sh(script: "aws cloudformation describe-stacks --stack-name ismaeelawsclitest2\
                                 --query Stacks[0].StackStatus --output text ", returnStdout: true)
@@ -52,7 +52,7 @@ pipeline {
                         echo "here b si againa  is "
                         error "stack failed due to update is failed"
                     }
-                    if (status == "UPDATE_ROLLBACK_COMPLETE" ) {
+                    if (status2 == "UPDATE_ROLLBACK_COMPLETE" ) {
                         sh "echo stack failed!"
                         echo "status be is  is "
                         error "stack failed due to update is failed"
