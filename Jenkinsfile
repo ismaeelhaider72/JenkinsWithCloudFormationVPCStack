@@ -41,17 +41,17 @@ pipeline {
 //                                     apply = true
                     echo "hy this is update secton status"
                     echo status2           
-                    String be=status2                 
-                    echo "be is "
-                    echo be
-                    echo be[0]
+//                     String be=status2                 
+//                     echo "be is "
+//                     echo be
+//                     echo be[0]
 
                                 
-                    if (be == "UPDATE_ROLLBACK_COMPLETE" ) {
-                        sh "echo stack failed!"
-                        echo "here b si againa  is "
-                        error "stack failed due to update is failed"
-                    }
+//                     if (be == "UPDATE_ROLLBACK_COMPLETE" ) {
+//                         sh "echo stack failed!"
+//                         echo "here b si againa  is "
+//                         error "stack failed due to update is failed"
+//                     }
                     if (status2 == "UPDATE_ROLLBACK_COMPLETE" ) {
                         sh "echo stack failed!"
                         echo "status be is  is "
