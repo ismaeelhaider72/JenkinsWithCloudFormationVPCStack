@@ -43,9 +43,10 @@ pipeline {
                     echo status2 
                     be=status2                 
                     echo "be is "
-                    echo be                                     
+                    echo be
+                    var ="UPDATE_ROLLBACK_COMPLETE"             
                                 
-                    if("$be" = "UPDATE_ROLLBACK_COMPLETE"){
+                    if(be = var){
                         sh "echo stack failed!"
                         error "stack failed due to update is failed"
                     }  
