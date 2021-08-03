@@ -37,7 +37,7 @@ pipeline {
                             }
                     }
                     status2 = sh(script: "aws cloudformation describe-stacks --stack-name ismaeelawsclitest2\
-                        --query Stacks[0].StackStatus --output text ", returnStdout: true)
+                        --query Stacks[0].StackStatus --output text ", returnStdout: true).trim()
 //                                     apply = true
                     echo "hy this is update secton status"
                     echo status2           
