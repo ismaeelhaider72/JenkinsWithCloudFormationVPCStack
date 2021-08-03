@@ -7,7 +7,7 @@ Parameters:
  
 
   MyBucketName:
-    Default: ismaeels3bucketfornestedstack
+    Default: ismaeels3bucketfornestedstack3
     Type: String    
 
 
