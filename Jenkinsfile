@@ -1,3 +1,4 @@
+String be=""
 pipeline {
     agent any
 
@@ -38,9 +39,11 @@ pipeline {
                         --query Stacks[0].StackStatus --output text ", returnStdout: true)
 //                                     apply = true
                     echo "hy this is update secton status"
-                    echo status           
+                    echo status > be 
+                    echo "be is "
+                    echo be                                     
                                 
-                    if(status = 'UPDATE_ROLLBACK_COMPLETE'){
+                    if(be == 'UPDATE_ROLLBACK_COMPLETE'){
                         sh "echo stack failed!"
                         error "stack failed due to update is failed"
                     }  
