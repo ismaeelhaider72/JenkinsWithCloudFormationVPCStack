@@ -40,9 +40,8 @@ pipeline {
                         --query Stacks[0].StackStatus --output text ", returnStdout: true)
 //                                     apply = true
                     echo "hy this is update secton status"
-                    echo status2
-                    echo status             
-                    be=status2                 
+                    echo status2           
+                    String be=status2                 
                     echo "be is "
                     echo be
                     echo be[0]
