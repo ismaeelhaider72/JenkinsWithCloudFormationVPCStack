@@ -1,4 +1,4 @@
-String be=""
+be=""
 pipeline {
     agent any
 
@@ -41,10 +41,11 @@ pipeline {
 //                                     apply = true
                     echo "hy this is update secton status"
                     echo status2
-                    echo status[0]             
+                    echo status             
                     be=status2                 
                     echo "be is "
                     echo be
+                    echo be[0]
                     var ="UPDATE_ROLLBACK_COMPLETE"             
                                 
                     if(be == "UPDATE_ROLLBACK_COMPLETE" ){
