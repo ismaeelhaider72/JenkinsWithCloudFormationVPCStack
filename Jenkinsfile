@@ -34,13 +34,13 @@ pipeline {
                                     sh "echo Finished create/update - no updates to be performed"
                             }
                     }
-                    String status = sh(script: "aws cloudformation describe-stacks --stack-name ismaeelawsclitest2\
+                    def status = sh(script: "aws cloudformation describe-stacks --stack-name ismaeelawsclitest2\
                         --query Stacks[0].StackStatus --output text ", returnStdout: true)
 //                                     apply = true
                     echo "hy this is update secton status"
                     echo status           
                                 
-                    if(status == 'UPDATE_ROLLBACK_COMPLETE'){
+                    if(status = 'UPDATE_ROLLBACK_COMPLETE'){
                         sh "echo stack failed!"
                         error "stack failed due to update is failed"
                     }  
