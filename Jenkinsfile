@@ -35,6 +35,8 @@ stage ('Release') {
                             }
                     }
                     sh "aws cloudformation wait stack-update-complete --stack-name ismaeelawsclitest2 "
+                    status2 = sh(script: "aws cloudformation describe-stacks --stack-name ismaeelawsclitest2 \
+                                --query Stacks[0].StackStatus --output text ", returnStdout: true).trim()                                        
                     if( status2 == "UPDATE_ROLLBACK_COMPLETE" ){
                         sh "echo stack failed!"
                         error "stack failed due to update is failed"
