@@ -37,7 +37,7 @@ stage ('Release') {
                                   --query Stacks[0].StackStatus --output text ", returnStdout: true).trim()
                     status2 = sh(script: "aws cloudformation describe-stacks --stack-name ismaeelawsclitest2 \
                                 --query Stacks[0].StackStatus --output text ", returnStdout: true).trim()
-                    sh "aws cloudformation continue-update-rollback --stack-name ismaeelawsclitest2 --resources-to-skip ismaeelawsclitest2-DatabaseBstack"             
+                                
                     echo "status 2 is "
                     echo status2 
                     echo "status 3 is "
