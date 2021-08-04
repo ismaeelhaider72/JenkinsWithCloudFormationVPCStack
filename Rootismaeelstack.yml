@@ -76,7 +76,7 @@ Resources:
         MyKeyName: !Ref MyKeyName
         ImageId: !Ref ImageId
         InstanceType: !Ref InstanceType
-        DatabaseSG: !GetAtt SecurityGroupStack.Outputs.DBSG1
+        DatabaseSG: !GetAtt SecurityGroupStack.Outputs.DBSG
         SubnetId: !GetAtt MyVPCStack.Outputs.PrivateSubnet1
 
         
