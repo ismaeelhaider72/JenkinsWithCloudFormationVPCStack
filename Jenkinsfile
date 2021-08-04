@@ -33,6 +33,8 @@ stage ('Release') {
 
                             } catch (error) {
                                     sh "echo Finished create/update - no updates to be performed"
+                                    echo "stack failed"
+                                    error "stack failed due to update is failed"
                             }
                     }
                     status3 = sh (script: "aws cloudformation wait stack-update-complete --stack-name ismaeelawsclitest2 \
