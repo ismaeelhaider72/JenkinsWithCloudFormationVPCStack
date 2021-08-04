@@ -105,7 +105,7 @@ Resources:
         VpcId: !GetAtt MyVPCStack.Outputs.VpcId
         PublicSubnet1: !GetAtt MyVPCStack.Outputs.PublicSubnet1
         PublicSubnet2: !GetAtt MyVPCStack.Outputs.PublicSubnet2        
-        ALBSecurityGroup: !GetAtt SecurityGroupStack.Outputs.WebSG
+        ALBSecurityGroup: !GetAtt SecurityGroupStack.Outputs.WebSG1
 
 
 
