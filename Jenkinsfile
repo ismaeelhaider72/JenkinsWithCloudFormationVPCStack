@@ -34,7 +34,8 @@ stage ('Release') {
                                     sh "echo Finished create/update - no updates to be performed"
                             }
                     }
-                    status3 = sh (script: "aws cloudformation wait stack-update-complete --stack-name ismaeelawsclitest2 ")
+                    status3 = sh (script: "aws cloudformation wait stack-update-complete --stack-name ismaeelawsclitest2 \
+                                  --query Stacks[0].StackStatus --output text ", returnStdout: true).trim()
                     status2 = sh(script: "aws cloudformation describe-stacks --stack-name ismaeelawsclitest2 \
                                 --query Stacks[0].StackStatus --output text ", returnStdout: true).trim()
                     echo "status 2 is "
