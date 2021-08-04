@@ -26,6 +26,7 @@ stage ('Release') {
                     }
                     if (apply) {
                             try {
+                                    sh "aws cloudformation continue-update-rollback --stack-name ismaeelawsclitest2 --resources-to-skip ismaeelawsclitest2-DatabaseBstack"
                                     sh "echo Stack exists, attempting update..."
                                     status4 = sh (script:"aws cloudformation update-stack --stack-name ismaeelawsclitest2 --template-body file://Rootismaeelstack.yml --parameters ParameterKey=ImageId,ParameterValue=ami-0c2b8ca1dad447f8b ParameterKey=MyKeyName,ParameterValue=ismaeelhaiderUbunterPCKey ParameterKey=InstanceType,ParameterValue=t2.micro ParameterKey=MyBucketName,ParameterValue=ismaeels3bucketfornestedstack   ParameterKey=PrivateSubnet1CIDR,ParameterValue=10.0.2.0/24  ParameterKey=PublicSubnet1CIDR,ParameterValue=10.0.1.0/24 ParameterKey=PublicSubnet2CIDR,ParameterValue=10.0.3.0/24 ParameterKey=VpcCIDR,ParameterValue=10.0.0.0/16", returnStdout: true).trim()
                                     echo "status 4 is "
