@@ -28,6 +28,12 @@ stage ('Release') {
                             try {
                                     sh "echo Stack exists, attempting update..."
                                     sh "aws cloudformation update-stack --stack-name ismaeelawsclitest2 --template-body file://Rootismaeelstack.yml --parameters ParameterKey=ImageId,ParameterValue=ami-0c2b8ca1dad447f8b ParameterKey=MyKeyName,ParameterValue=ismaeelhaiderUbunterPCKey ParameterKey=InstanceType,ParameterValue=t2.micro ParameterKey=MyBucketName,ParameterValue=ismaeels3bucketfornestedstack   ParameterKey=PrivateSubnet1CIDR,ParameterValue=10.0.2.0/24  ParameterKey=PublicSubnet1CIDR,ParameterValue=10.0.1.0/24 ParameterKey=PublicSubnet2CIDR,ParameterValue=10.0.3.0/24 ParameterKey=VpcCIDR,ParameterValue=10.0.0.0/16"
+                                    sh "aws cloudformation wait stack-update-complete --stack-name ismaeelawsclitest2 "
+                                    if( status2 == "UPDATE_ROLLBACK_COMPLETE" ){
+                                        sh "echo stack failed!"
+                                        error "stack failed due to update is failed"
+                                         }  
+
                             } catch (error) {
                                     sh "echo Finished create/update - no updates to be performed"
                             }
