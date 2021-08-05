@@ -18,14 +18,14 @@ stage ('Release') {
                             apply = false
                             sh 'echo Creating ismaeelawsclitest2....'
                             sh "aws cloudformation validate-template --template-body ile://Rootismaeelstack.yml "
-                            sh "aws cloudformation create-stack --stack-name  ismaeelawsclitest2 --template-body file://Rootismaeelstack.yml --parameters file://params.json "
+                            sh "aws cloudformation create-stack --stack-name  ismaeelawsclitest2 --template-body file://Rootismaeelstack.yml --parameters file://parms.json "
                             sh "aws cloudformation describe-stack-events --stack-name ismaeelawsclitest2\
                                             --query 'StackEvents[].[{Resource:LogicalResourceId,Status:ResourceStatus,Reason:ResourceStatusReason}]' \
                                             --output table "
                     }
                     if (apply) {
                             try {
-                                    sh "aws cloudformation update-stack --stack-name ismaeelawsclitest2 --template-body file://Rootismaeelstack.yml --parameters file://params.json "
+                                    sh "aws cloudformation update-stack --stack-name ismaeelawsclitest2 --template-body file://Rootismaeelstack.yml --parameters file://parms.json "
                             } catch (error) {
                                     sh "echo Finished create/update - no updates to be performed"
                                     echo "stack failed"
