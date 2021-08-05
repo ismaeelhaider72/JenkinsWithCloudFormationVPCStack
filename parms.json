@@ -1,4 +1,4 @@
-'{"ImageId":"ami-0c2b8ca1dad447f8a",
+'{"ImageId"="ami-0c2b8ca1dad447f8a",
 "MyKeyName":"ismaeelhaiderUbunterPCKey",
 "InstanceType":"t2.micro", 
 "MyBucketName":"ismaeels3bucketfornestedstack", 
