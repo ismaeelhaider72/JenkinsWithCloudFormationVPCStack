@@ -11,6 +11,7 @@
     "ParameterKey":"InstanceType",
     "ParameterValue":"t2.micro"
   },
+  {
     "ParameterKey":"MyBucketName",
     "ParameterValue":"ismaeeeljenkinsbucket"
   },
