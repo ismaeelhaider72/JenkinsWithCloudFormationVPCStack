@@ -12,7 +12,7 @@
     "ParameterValue":"t2.micro"
   },
     "ParameterKey":"MyBucketName",
-    "ParameterValue":"ismaeels3bucketfornestedstack"
+    "ParameterValue":"ismaeeeljenkinsbucket"
   },
   {
     "ParameterKey":"PrivateSubnet1CIDR",
